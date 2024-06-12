@@ -1,3 +1,4 @@
 /.idea
 /myprojectenv/
 token.txt
+.env
