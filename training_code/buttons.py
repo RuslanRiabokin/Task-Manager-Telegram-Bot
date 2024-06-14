@@ -2,12 +2,7 @@ from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import CommandStart, Command
 import asyncio
 import logging
-import sys
-import os
-
-# Добавьте корневую директорию в sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from myproject.config_reader import config
+from myproject import config
 
 # Включаем логирование, чтобы не пропустить важные сообщения
 logging.basicConfig(level=logging.INFO)
@@ -31,12 +26,12 @@ async def cmd_pureshka(message: types.Message):
 @dp.message(F.text.lower() == "с пюрешкой")
 async def with_puree(message: types.Message):
     """Обработчик сообщения 'с пюрешкой'. Отправляет ответ 'Отличный выбор!'."""
-    await message.reply("Отличный выбор!")
+    await message.reply("Отличный выбор!", reply_markup=types.ReplyKeyboardRemove())
 
 @dp.message(F.text.lower() == "без пюрешки")
 async def without_puree(message: types.Message):
     """Обработчик сообщения 'без пюрешки'. Отправляет ответ 'Так невкусно!'."""
-    await message.reply("Так невкусно! Лучше с пюрешкой")
+    await message.reply("Так невкусно! Лучше с пюрешкой", reply_markup=types.ReplyKeyboardRemove())
 
 @dp.message(CommandStart())
 async def send_welcome(message: types.Message):

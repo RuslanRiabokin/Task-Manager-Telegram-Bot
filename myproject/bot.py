@@ -3,7 +3,7 @@ from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 import asyncio
 import logging
-from config_reader import config
+from myproject import config
 from database import Db
 
 # Включаем логирование, чтобы не пропустить важные сообщения
