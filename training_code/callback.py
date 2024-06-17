@@ -12,6 +12,8 @@ from aiogram.exceptions import TelegramBadRequest
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=config.bot_token.get_secret_value())
 dp = Dispatcher()
+
+
 @dp.message(Command("random"))
 async def cmd_random(message: types.Message):
     builder = InlineKeyboardBuilder()
@@ -24,6 +26,7 @@ async def cmd_random(message: types.Message):
         reply_markup=builder.as_markup()
     )
 
+
 @dp.callback_query(F.data == "random_value")
 async def send_random_value(callback: types.CallbackQuery):
     await callback.message.answer(str(randint(1, 10)))
@@ -35,6 +38,7 @@ async def send_random_value(callback: types.CallbackQuery):
 # Здесь хранятся пользовательские данные.
 # Т.к. это словарь в памяти, то при перезапуске он очистится
 user_data = {}
+
 
 def get_keyboard():
     buttons = [
@@ -54,6 +58,7 @@ async def update_num_text(message: types.Message, new_value: int):
             f"Укажите число: {new_value}",
             reply_markup=get_keyboard()
         )
+
 
 @dp.message(Command("numbers"))
 async def cmd_numbers(message: types.Message):
@@ -77,14 +82,18 @@ async def callbacks_num(callback: types.CallbackQuery):
 
     await callback.answer()
 
+
 async def main() -> None:
     """Главная функция для запуска бота."""
     try:
         await dp.start_polling(bot)
+
     except Exception as e:
         logging.error(f"An error occurred: {e}")
+
     finally:
         await bot.session.close()
+
 
 if __name__ == '__main__':
     asyncio.run(main())
