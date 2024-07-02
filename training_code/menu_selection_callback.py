@@ -101,6 +101,24 @@ async def choice_of_dish(callback_query: types.CallbackQuery, callback_data: Dis
         f"Ціна: {dish_price}\n"
         f"Опис: {description}"
     )
+    await callback_query.answer()
+
+    # Створюємо клавіатуру з кнопками "Підтвердити" та "Повернутися до вибору страв"
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text="Підтвердити", callback_data=DishCallbackFactory(action="confirm", id=callback_data.id)
+    )
+    builder.button(
+        text="Повернутися до вибору страв",
+        callback_data=DishCallbackFactory(action="back_to_menu", id=callback_data.id)
+    )
+    builder.adjust(2)
+
+    # Відправляємо повідомлення з клавіатурою
+    await callback_query.message.answer(
+        "Оберіть подальшу дію:",
+        reply_markup=builder.as_markup()
+    )
 
 
 @dp.message(Command("start"))
